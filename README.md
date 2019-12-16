@@ -15,11 +15,12 @@ const Protocol = require('hypercore-protocol')
 const crypto = require('hypercore-crypto')
 const auth = require('.')
 
-// each peer/device has a keypair that iss stored (or derived)
+// each peer/device has a keypair that is stored (or derived)
+// this could also be the keypair from an existing hypercore feed
 const IDENTITY = crypto.keyPair()
 // console.log('my key', IDENTITY.publicKey.toString('hex'))
 
-// it also has a list of the pubkeys of peers it want to connect with
+// it also maintains a list of the pubkeys of peers it wants to connect with
 const ALLOWED_KEYS = []
 
 const swarm = hyperswarm()
@@ -31,17 +32,17 @@ function onconnection (socket, details) {
   pump(socket, protocol, socket)
 
   auth(protocol, {
-    authKeyPair: group.identity,
-    onauthenticate (authKey, cb) {
+    authKeyPair: IDENTITY
+    onauthenticate (peerAuthKey, cb) {
       for (const key of ALLOWED_KEYS) {
-        if (key.equals(authKey)) return cb(null, true)
+        if (key.equals(peerAuthKey)) return cb(null, true)
       }
       cb(null, false)
     },
     onprotocol (protocol) {
       // if this is called, the peer has proven:
-      // - it owns the secret key of peerDevicePublicKey
-      // - the peerDevicePublicKey passed the onauthenticate hook
+      // - it has the secret key to the peerAuthKey above
+      // - the peerAuthKey passed the onauthenticate hook
       // so here you'd start replicating feeds:
       // feed.replicate(isInitiator, { stream: protocol })
     }
