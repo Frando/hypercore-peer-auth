@@ -1,0 +1,22 @@
+{
+  "name": "hypercore-peer-auth",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "hypercore": "^8.4.0",
+    "hypercore-crypto": "^1.0.0",
+    "pump": "^3.0.0",
+    "tape": "^4.11.0"
+  },
+  "dependencies": {
+    "sodium-universal": "^2.0.0",
+    "hypercore-protocol": "^7.7.1"
+  },
+  "description": ""
+}
