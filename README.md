@@ -1,8 +1,6 @@
 # hypercore-peer-auth
 
-Authenticate a hypercore-protocol connection by signing the NOISE key pair.
-
-Note: This is quickly written and the crypto needs review. 
+Authenticate a hypercore-protocol connection by signing the NOISE public keys with a static key pair.
 
 See [test.js](./test.js) for an example.
 
